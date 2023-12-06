@@ -1,0 +1,15 @@
+{
+    "name": "root/www",
+    "description": "Teste Pedro",
+    "autoload": {
+        "psr-4": {
+            "app\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Pedro"
+        }
+    ],
+    "require": {}
+}
