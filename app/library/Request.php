@@ -25,7 +25,7 @@ class Request implements RequestInterface
 
         $data = match (self::getMethod()) {
             'GET'    => $_GET,
-            'POST'   => $json,
+            'POST'   => $_POST,
             'PUT'    => $json,
             'DELETE' => $json,
             default  => []

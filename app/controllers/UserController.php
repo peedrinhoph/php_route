@@ -17,7 +17,11 @@ class UserController
         ]);
 
         try {
-            return RenderView::render('user', []);
+            $user = new User();
+            $userQuery = $user->all();
+
+
+            return RenderView::render('user/index', ['users' => $userQuery]);
         } catch (\Exception $err) {
             return $response::json([
                 'error' => $err->getMessage(),
@@ -38,7 +42,7 @@ class UserController
         try {
             return RenderView::render('user', [
                 'title' => 'List user',
-                'data' => $userQuery
+                'users' => $userQuery
             ]);
 
             // return $response::json([
@@ -51,15 +55,84 @@ class UserController
         }
     }
 
-    public function create(Request $request, Response $response)
+    public function register(Request $request, Response $response)
     {
-
-        $user = new User();
-        $userInsert = $user->create([
-            'nome'  => 'Pedro Henrique Pereira'
+        // return $response::json(['name'=>'Pedro']);
+        $response::setHeaders([
+            'Content-Type' => 'text/html',
         ]);
 
-        var_dump($userInsert);
+        try {
+            return RenderView::render('auth/register');
+        } catch (\Exception $err) {
+            return $response::json([
+                'error' => $err->getMessage(),
+            ], 400);
+        }
+    }
+
+    public function create(Request $request, Response $response)
+    {
+        $response::setHeaders([
+            'Content-Type' => 'text/html',
+        ]);
+
+        try {
+            $data =  $request::body();
+            $password = password_hash($data['password'], PASSWORD_BCRYPT, ['cost' => 12]);
+            $user = new User();
+            $user->create([
+                'name'      =>  $data['name'],
+                'email'     =>  $data['email'],
+                'password'  =>  $password
+            ]);
+
+            return $response::redirect('/user');
+        } catch (\Exception $err) {
+            return $response::json([
+                'error' => $err->getMessage(),
+            ], 400);
+        }
+    }
+
+    public function login(Request $request, Response $response)
+    {
+        $response::setHeaders([
+            'Content-Type' => 'text/html',
+        ]);
+
+        try {
+            return RenderView::render('auth/login');
+        } catch (\Exception $err) {
+            return $response::json([
+                'error' => $err->getMessage(),
+            ], 400);
+        }
+    }
+
+    public function auth(Request $request, Response $response)
+    {
+        $response::setHeaders([
+            'Content-Type' => 'text/html',
+        ]);
+        try {
+
+            $data =  $request::body();
+
+            $user = new User();
+            $userQuery = $user->where('email', $data['email'], 'password, email');
+
+
+            if (password_verify($data['password'], $userQuery[0]['password'])) {
+                return $response::redirect('/user');
+            } else {
+                return $response::redirect('/login');
+            }
+        } catch (\Exception $err) {
+            return $response::json([
+                'error' => $err->getMessage(),
+            ], 400);
+        }
     }
 
     public function update(Request $request, Response $response)
