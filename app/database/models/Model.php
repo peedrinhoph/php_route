@@ -32,11 +32,10 @@ abstract class Model
 
       $query = $conn->prepare("select {$fields} from {$tableName}");
       $query->execute();
-
+      $fetchAll = $query->fetchAll(\PDO::FETCH_ASSOC) ?? [];
       // return $query->fetchAll(PDO::FETCH_CLASS, static::class);
-      return $query->fetchAll(\PDO::FETCH_ASSOC) ?? [];
-
       Transaction::close();
+      return  $fetchAll;
     } catch (PDOException $e) {
       Transaction::rollback();
     }
@@ -56,11 +55,13 @@ abstract class Model
       // return $query->fetchObject(static::class);
 
       if ($query->rowCount() > 0) {
-        return $query->fetchAll(\PDO::FETCH_ASSOC);
+        $fetchAll = $query->fetchAll(\PDO::FETCH_ASSOC);
+        Transaction::close();
+        return $fetchAll;
       }
 
-      return [];
       Transaction::close();
+      return [];
     } catch (PDOException $e) {
       Transaction::rollback();
     }
@@ -80,12 +81,13 @@ abstract class Model
       // return $query->fetchObject(static::class);
 
       if ($query->rowCount() > 0) {
-        return $query->fetchAll(\PDO::FETCH_ASSOC);
+        $fetchAll = $query->fetchAll(\PDO::FETCH_ASSOC);
+        Transaction::close();
+        return $fetchAll;
       }
 
-      return [];
-
       Transaction::close();
+      return [];
     } catch (PDOException $e) {
       var_dump($e->getMessage());
       Transaction::rollback();
@@ -125,7 +127,6 @@ abstract class Model
       } else {
         return [];
       }
-      
     } catch (PDOException $e) {
       var_dump($e->getMessage());
       Transaction::rollback();

@@ -11,5 +11,7 @@
             "name": "Pedro"
         }
     ],
-    "require": {}
+    "require": {
+        "league/plates": "^3.5"
+    }
 }
