@@ -11,13 +11,13 @@
                 <form method="post" action="/auth">
                     <div class="form-outline mb-4">
                         <label class="form-label" for="email">Email: </label>
-                        <input type="email" name="email" class="form-control" />
+                        <input type="email" name="email" class="form-control" required/>
                     </div>
                     <div class="form-outline mb-4">
                         <label class="form-label" for="password">Password: </label>
-                        <input type="password" name="password" class="form-control"  />
+                        <input type="password" name="password" class="form-control"  required />
                     </div>
-                    <button type="submit" class="btn btn-primary btn-block mb-4">Login</button>
+                    <button type="submit" class="btn btn-primary btn-medium w-100 rounded-5 text-uppercase">Login</button>
                 </form>
             </div>
         </div>

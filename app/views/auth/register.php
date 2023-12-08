@@ -8,7 +8,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <form method="post" action="/new-register">
+                <form method="post" action="/create">
                     <div class="form-outline mb-4">
                         <label class="form-label" for="name">Name: </label>
                         <input type="name" name="name" class="form-control" />

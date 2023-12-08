@@ -14,11 +14,14 @@ Route::put('/update', 'UserController@update');
 Route::delete('/delete', 'UserController@delete');
 
 //ROTAS REGISTER USER
-Route::get('/register', 'UserController@register');
-Route::post('/new-register', 'UserController@create');
+Route::get('/register', 'RegisterController@index');
+Route::post('/create', 'RegisterController@store');
+
 Route::get('/forgot-password', 'UserController@forgot');
-Route::get('/login', 'UserController@login');
-Route::post('/auth', 'UserController@auth');
+
+Route::get('/login', 'LoginController@index');
+Route::post('/auth', 'LoginController@login');
+Route::get('/logout', 'LoginController@destroy');
 
 
 
