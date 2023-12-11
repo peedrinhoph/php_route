@@ -17,13 +17,22 @@ class AuthService
             $user = new User();
             $userQuery = $user->where('email', $email, 'name, password, email');
 
-            if (password_verify($password, $userQuery[0]['password']) && $email === $userQuery[0]['email']) {
+            if(!array_key_exists('password', $userQuery[0])){
+                return false;
+            }
+
+            if ($this->passwordVerify($password, $userQuery) && $email === $userQuery[0]['email']) {
                 $this->hasLogin($userQuery);
                 return true;
             } else return false;
         } catch (\Exception $err) {
             return $err->getMessage();
         }
+    }
+
+    private function passwordVerify(string $password, array $user)
+    {
+        return password_verify($password, $user[0]['password']);
     }
 
     private function hasLogin(array $user)
