@@ -5,6 +5,8 @@ namespace app\core;
 use app\library\Request;
 use app\library\Response;
 use app\controllers\NotFoundController;
+use ReflectionClass;
+use ReflectionParameter;
 
 class Controller
 {
@@ -55,6 +57,15 @@ class Controller
                 $controller = $this->controllerPath($controller);
 
                 $extendController = new $controller();
+
+                if (!method_exists($controller, $action)) {
+                    throw new \Exception("Action {$action} does not exist");
+                }
+                
+                // $reflect = new ReflectionClass($extendController);
+                // $params = $reflect->getMethod($action)->getParameters();
+                
+                
                 $extendController->$action(new Request, new Response, $matches);
             }
         }
@@ -64,4 +75,5 @@ class Controller
             $controller->index(new Request, new Response);
         }
     }
+    
 }

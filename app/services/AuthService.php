@@ -2,6 +2,7 @@
 
 namespace app\services;
 
+use app\library\Session;
 use app\database\models\User;
 
 class AuthService
@@ -16,6 +17,8 @@ class AuthService
 
             $user = new User();
             $userQuery = $user->where('email', $email, 'name, password, email');
+
+            if(empty($userQuery)) return false;
 
             if(!array_key_exists('password', $userQuery[0])){
                 return false;
@@ -37,25 +40,25 @@ class AuthService
 
     private function hasLogin(array $user)
     {
-        if (!isset($_SESSION['auth'])) {
-            $_SESSION['auth'] = $user[0]['email'];
+        if (!Session::hasSession('auth')) {
+            Session::setSession('auth', $user[0]['email']);
         }
     }
 
     public static function isAuth()
     {
-        return isset($_SESSION['auth']);
+        return Session::hasSession('auth');
     }
 
     public static function auth()
     {
-        return $_SESSION['auth'] ?? null;
+        return Session::hasSession('auth') ?? null;
     }
 
     public function logout()
     {
-        if (isset($_SESSION['auth'])) {
-            unset($_SESSION['auth']);
+        if (Session::hasSession('auth')) {
+            Session::destroySession('auth');
         }
     }
 }

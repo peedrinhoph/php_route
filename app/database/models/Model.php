@@ -29,7 +29,7 @@ abstract class Model
 
       $conn = Transaction::getConnection();
       $tableName = static::$table;
-
+      self::tableExists($tableName, $conn);
       $query = $conn->prepare("select {$fields} from {$tableName}");
       $query->execute();
       $fetchAll = $query->fetchAll(\PDO::FETCH_ASSOC) ?? [];
@@ -41,6 +41,13 @@ abstract class Model
     }
   }
 
+  public static function tableExists(string $tableName, PDO $conn)
+  {
+    if ($conn->query("SHOW TABLES LIKE '$tableName'")->rowCount() > 0) {
+      return true;
+    } else throw new \Exception("Table or view {$tableName} not exist");
+  }
+
   public static function where(string $field, string $value, string $fields = '*')
   {
     try {
@@ -48,6 +55,8 @@ abstract class Model
 
       $conn = Transaction::getConnection();
       $tableName = static::$table;
+      
+       self::tableExists($tableName, $conn);
 
       $query = $conn->prepare("select {$fields} from {$tableName} where {$field} = :{$field}");
       $query->execute([$field => $value]);
@@ -74,7 +83,7 @@ abstract class Model
 
       $conn = Transaction::getConnection();
       $tableName = static::$table;
-
+      self::tableExists($tableName, $conn);
       $query = $conn->prepare("select {$fields} from {$tableName} where id = ?");
       $query->execute([$value]);
 
@@ -101,7 +110,7 @@ abstract class Model
 
       $conn = Transaction::getConnection();
       $tableName = static::$table;
-
+      self::tableExists($tableName, $conn);
       // $columns = array();
       // $values = array();
 
