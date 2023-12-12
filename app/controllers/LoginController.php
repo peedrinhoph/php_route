@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\core\RenderView;
 use app\library\Request;
+use app\library\Session;
 use app\library\Response;
 use app\services\AuthService;
 
@@ -48,6 +49,7 @@ class LoginController
             if ($authenticate) {
                 return $response::redirect('/user');
             } else {
+                Session::flashMessage('error', 'User or passwords not match');
                 return $response::redirect('/login');
             }
         } catch (\Exception $err) {

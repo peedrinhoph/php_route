@@ -6,16 +6,21 @@
         <div class="col-md-12 py-4 text-center">
             <h3>Login</h3>
         </div>
+        <?php if (flashMessage('error')) { ?>
+            <p>
+                <mark><?php echo flashMessage('error'); ?></mark>
+            </p>
+        <?php } ?>
         <div class="row">
             <div class="col-md-12">
                 <form method="post" action="/auth">
                     <div class="form-outline mb-4">
                         <label class="form-label" for="email">Email: </label>
-                        <input type="email" name="email" class="form-control" required/>
+                        <input type="email" name="email" class="form-control" required />
                     </div>
                     <div class="form-outline mb-4">
                         <label class="form-label" for="password">Password: </label>
-                        <input type="password" name="password" class="form-control"  required />
+                        <input type="password" name="password" class="form-control" required />
                     </div>
                     <button type="submit" class="btn btn-primary btn-medium w-100 rounded-5 text-uppercase">Login</button>
                 </form>

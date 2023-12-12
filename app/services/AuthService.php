@@ -47,13 +47,13 @@ class AuthService
 
     public static function isAuth()
     {
-        return Session::hasSession('auth');
-    }
-
-    public static function auth()
-    {
         return Session::hasSession('auth') ?? null;
     }
+
+    // public static function auth()
+    // {
+    //     return Session::hasSession('auth') ?? null;
+    // }
 
     public function logout()
     {

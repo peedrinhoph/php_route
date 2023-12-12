@@ -1,8 +1,10 @@
 <?php
 
+use app\library\Session;
+
 require './bootstrap.php';
 require '../app/routes/web.php';
-
+Session::destroyFlashMessage();
 // Classe Abstrata abstract class teste
 
 // São utizadas quando se necessita utilizar uma implementação repetida, por exemplo, 
