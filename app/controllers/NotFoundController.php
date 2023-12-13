@@ -2,18 +2,17 @@
 
 namespace app\controllers;
 
-use app\library\Request;
 use app\library\Response;
 
-class NotFoundController
+class NotFoundController extends Response
 {
 
-    public function index(Request $request, Response $response)
+    public function index()
     {
-        return $response::json([
+        return $this->json([
             'error'   => true,
             'success' => false,
-            'message' => 'Not correspond.'
+            'message' => 'Route not found.'
         ], 404);
     }
 }

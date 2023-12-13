@@ -9,17 +9,29 @@ use app\database\models\User;
 
 class HomeController
 {
-    public function index(Request $request, Response $response)
+    private Request $request;
+    private Response $response;
+
+    public function __construct()
+    {
+        $this->request = new Request;
+        $this->response = new Response;
+    }
+
+    public function index()
     {
         // return $response::json(['name'=>'Pedro']);
-        $response::setHeaders([
+        $this->response->setHeaders([
             'Content-Type' => 'text/html',
         ]);
 
         try {
-            return RenderView::render('home/home', []);
+            return $this->response->json([
+                
+            ], 400);
+            // return RenderView::render('home/home', []);
         } catch (\Exception $err) {
-            return $response::json([
+            return $this->response->json([
                 'error' => $err->getMessage(),
             ], 400);
         }

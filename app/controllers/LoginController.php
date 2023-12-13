@@ -12,48 +12,52 @@ class LoginController
 {
 
     private AuthService $authService;
+    private Request $request;
+    private Response $response;
 
     public function __construct()
     {
         $this->authService = new AuthService;
+        $this->request = new Request;
+        $this->response = new Response;
     }
 
-    public function index(Request $request, Response $response)
+    public function index()
     {
-        $response::setHeaders([
+        $this->response->setHeaders([
             'Content-Type' => 'text/html',
         ]);
 
         try {
             if ($this->authService->isAuth()) {
-                return $response::redirect('/user');
+                return $this->response->redirect('/user');
             }
             return RenderView::render('auth/login');
         } catch (\Exception $err) {
-            return $response::json([
+            return  $this->response->json([
                 'error' => $err->getMessage(),
             ], 400);
         }
     }
 
-    public function login(Request $request, Response $response)
+    public function login()
     {
-        $response::setHeaders([
+        $this->response->setHeaders([
             'Content-Type' => 'text/html',
         ]);
 
         try {
 
-            $authenticate = $this->authService->login($request::body());
+            $authenticate = $this->authService->login( $this->request->body());
 
             if ($authenticate) {
-                return $response::redirect('/user');
+                return  $this->response->redirect('/user');
             } else {
                 Session::flashMessage('error', 'User or passwords not match');
-                return $response::redirect('/login');
+                return  $this->response->redirect('/login');
             }
         } catch (\Exception $err) {
-            return $response::json([
+            return  $this->response->json([
                 'error' => $err->getMessage(),
             ], 400);
         }

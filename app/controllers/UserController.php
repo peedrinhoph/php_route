@@ -9,10 +9,18 @@ use app\database\models\User;
 
 class UserController
 {
-    public function index(Request $request, Response $response)
+    private Request $request;
+    private Response $response;
+
+    public function __construct()
     {
-        // return $response::json(['name'=>'Pedro']);
-        $response::setHeaders([
+        $this->request = new Request;
+        $this->response = new Response;
+    }
+
+    public function index()
+    {
+        $this->response->setHeaders([
             'Content-Type' => 'text/html',
         ]);
 
@@ -20,63 +28,51 @@ class UserController
             $user = new User();
             $userQuery = $user->all();
 
-
-            return RenderView::render('user/index', ['users' => $userQuery]);
+            return $this->response->json([
+                [
+                    'results' => [
+                        'users' => $userQuery
+                    ]
+                ]
+            ]);
+            // return RenderView::render('user/index', ['users' => $userQuery]);
         } catch (\Exception $err) {
-            return $response::json([
+            return $this->response->json([
                 'error' => $err->getMessage(),
             ], 400);
         }
     }
 
-    public function show(Request $request, Response $response, array $params)
+    public function show(array $params)
     {
-        $response::setHeaders([
+        $this->response->setHeaders([
             'Content-Type' => 'text/html',
         ]);
 
-        // $User = array('id' => '999', 'name' => 'Pedro');
         $user = new User();
         $userQuery = $user->find($params[0]);
-        // var_dump($userQuery);
         try {
-            return RenderView::render('user', [
-                'title' => 'List user',
-                'users' => $userQuery
-            ]);
-
-            // return $response::json([
-            //     'data' => $userQuery,
+            // return RenderView::render('user', [
+            //     'title' => 'List user',
+            //     'users' => $userQuery
             // ]);
+
+            return $this->response->json([
+                'results' => ['users' => $userQuery]
+            ]);
         } catch (\Exception $err) {
-            return $response::json([
+            return $this->response->json([
                 'error' => $err->getMessage(),
             ], 400);
         }
     }
 
-    public function register(Request $request, Response $response)
-    {
-        // return $response::json(['name'=>'Pedro']);
-        $response::setHeaders([
-            'Content-Type' => 'text/html',
-        ]);
-
-        try {
-            return RenderView::render('auth/register');
-        } catch (\Exception $err) {
-            return $response::json([
-                'error' => $err->getMessage(),
-            ], 400);
-        }
-    }
-
-    public function update(Request $request, Response $response)
+    public function update()
     {
         var_dump('hello update');
     }
 
-    public function delete(Request $request, Response $response)
+    public function delete()
     {
         var_dump('hello delete');
     }

@@ -23,9 +23,6 @@ class Controller
     public function dispatch(array $routes): void
     {
 
-        // isset($_SERVER['REQUEST_URI']) && $url = $_SERVER['REQUEST_URI'];
-        // $url !== '/' && $url = rtrim($url, '/');
-
         $currentUri =  isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
         $uri = $currentUri !== '/' ? rtrim($currentUri, '/') : $currentUri;
 
@@ -59,14 +56,14 @@ class Controller
                 $extendController = new $controller();
 
                 if (!method_exists($controller, $action)) {
-                    throw new \Exception("Action {$action} does not exist");
+                    throw new \Exception("Method {$action} does not exist on class {$controller}");
                 }
                 
                 // $reflect = new ReflectionClass($extendController);
                 // $params = $reflect->getMethod($action)->getParameters();
                 
                 
-                $extendController->$action(new Request, new Response, $matches);
+                $extendController->$action($matches);
             }
         }
 
