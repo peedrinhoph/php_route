@@ -21,7 +21,7 @@ class Response implements ResponseInterface
             header("$key: $value");
         }
 
-        echo json_encode($data, JSON_UNESCAPED_SLASHES);
+        echo json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     }
 
 

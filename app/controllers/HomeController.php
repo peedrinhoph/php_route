@@ -26,10 +26,10 @@ class HomeController
         ]);
 
         try {
-            return $this->response->json([
+            // return $this->response->json([
                 
-            ], 400);
-            // return RenderView::render('home/home', []);
+            // ], 400);
+            return RenderView::render('home/home', []);
         } catch (\Exception $err) {
             return $this->response->json([
                 'error' => $err->getMessage(),

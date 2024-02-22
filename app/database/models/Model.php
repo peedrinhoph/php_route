@@ -63,14 +63,14 @@ abstract class Model
 
       // return $query->fetchObject(static::class);
 
-      if ($query->rowCount() > 0) {
-        $fetchAll = $query->fetchAll(\PDO::FETCH_ASSOC);
+      // if ($query->rowCount() > 0) {
+        $fetchAll = $query->fetchAll(\PDO::FETCH_ASSOC) ?? ['s'];
         Transaction::close();
         return $fetchAll;
-      }
+      // }
 
-      Transaction::close();
-      return [];
+      // Transaction::close();
+      // return [];
     } catch (PDOException $e) {
       Transaction::rollback();
     }
@@ -89,14 +89,14 @@ abstract class Model
 
       // return $query->fetchObject(static::class);
 
-      if ($query->rowCount() > 0) {
-        $fetchAll = $query->fetchAll(\PDO::FETCH_ASSOC);
+      // if ($query->rowCount() > 0) {
+        $fetchAll = $query->fetchAll(\PDO::FETCH_ASSOC) ?? [];
         Transaction::close();
         return $fetchAll;
-      }
+      // }
 
-      Transaction::close();
-      return [];
+      // Transaction::close();
+      // return [];
     } catch (PDOException $e) {
       var_dump($e->getMessage());
       Transaction::rollback();

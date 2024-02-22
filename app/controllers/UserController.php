@@ -28,14 +28,14 @@ class UserController
             $user = new User();
             $userQuery = $user->all();
 
-            return $this->response->json([
-                [
-                    'results' => [
-                        'users' => $userQuery
-                    ]
-                ]
-            ]);
-            // return RenderView::render('user/index', ['users' => $userQuery]);
+            // return $this->response->json([
+            //     [
+            //         'results' => [
+            //             'users' => $userQuery
+            //         ]
+            //     ]
+            // ]);
+            return RenderView::render('user/index', ['users' => $userQuery]);
         } catch (\Exception $err) {
             return $this->response->json([
                 'error' => $err->getMessage(),
@@ -45,6 +45,7 @@ class UserController
 
     public function show(array $params)
     {
+        // var_dump($params);
         $this->response->setHeaders([
             'Content-Type' => 'text/html',
         ]);
@@ -52,14 +53,14 @@ class UserController
         $user = new User();
         $userQuery = $user->find($params[0]);
         try {
-            // return RenderView::render('user', [
-            //     'title' => 'List user',
-            //     'users' => $userQuery
-            // ]);
-
-            return $this->response->json([
-                'results' => ['users' => $userQuery]
+            return RenderView::render('user', [
+                'title' => 'List user',
+                'users' => $userQuery
             ]);
+
+            // return $this->response->json([
+            //     'results' => ['users' => $userQuery]
+            // ]);
         } catch (\Exception $err) {
             return $this->response->json([
                 'error' => $err->getMessage(),

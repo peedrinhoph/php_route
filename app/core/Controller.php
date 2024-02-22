@@ -50,7 +50,6 @@ class Controller
                 }
 
                 [$controller, $action] = explode('@', $route['action']);
-
                 $controller = $this->controllerPath($controller);
 
                 $extendController = new $controller();
@@ -58,11 +57,12 @@ class Controller
                 if (!method_exists($controller, $action)) {
                     throw new \Exception("Method {$action} does not exist on class {$controller}");
                 }
-                
+
                 // $reflect = new ReflectionClass($extendController);
                 // $params = $reflect->getMethod($action)->getParameters();
-                
-                
+
+                // var_dump($params);
+
                 $extendController->$action($matches);
             }
         }
@@ -72,5 +72,4 @@ class Controller
             $controller->index(new Request, new Response);
         }
     }
-    
 }
